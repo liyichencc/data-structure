@@ -54,6 +54,14 @@ class MyStack {
         return stackArray[top--];
     }
 
+    public int peek() {
+        return stackArray[top];
+    }
+
+    public boolean isEmpty() {
+        return this.top == -1;
+    }
+
     public void show() {
 
         for (int i = top; i >= 0; i--) {
