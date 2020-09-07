@@ -1,7 +1,7 @@
 package stack;
 
 /**
- * @Description 用栈实现计算器，暂不可多位数计算，不可小括号。
+ * @Description 用栈实现计算器，可多位计算
  * @Author v_liyichen
  * @date 2020.09.07 15:00
  */
@@ -9,7 +9,7 @@ public class CalculationQuestion {
 
     public static void main(String[] args) {
         CalculationQuestion s = new CalculationQuestion();
-        int calculation = s.calculation("6*2*3/9");
+        int calculation = s.calculation("12345+54321*2/3");
         System.out.println(calculation);
     }
 
@@ -24,8 +24,8 @@ public class CalculationQuestion {
 
         char[] strChar = str.toCharArray();
 
-        for (int i = 0; i < strChar.length; i++) {
-            checkCurrentIndex(strChar[i],numberStack,operStack);
+        for (int i = 0; i < strChar.length;) {
+            i+= checkCurrentIndex(strChar, numberStack, operStack, i);
         }
 
         /**
@@ -75,8 +75,11 @@ public class CalculationQuestion {
         }
     }
 
+    private boolean isNumber(char c) {
+        return c >= '0' && c <= '9';
+    }
     /**
-     *  如果当前值是数字，则直接如数字栈
+     *  如果当前值是数字，需要向后看一位，如果后位还是数字则继续，如果是符号位了就把之前的数字都组合入栈
      *  如果当前值是符号，
      *  则判断符号栈内是否为空？
      *    若为空则直接入栈
@@ -84,14 +87,29 @@ public class CalculationQuestion {
      *    若不为空则需要从符号栈内取出一个元素
      *      若当前元素的优先级小于等于栈顶元素的优先级，则需要从数字栈内弹出2位，符号栈内弹出1位，先进行计算，再把当前的符号如符号栈
      *      若当前元素的优先级大于栈顶元素的优先级，则直接入栈。
-     * @param c
      * @param numberStack
      * @param operStack
      */
-    private void checkCurrentIndex(char c, MyStack numberStack, MyStack operStack) {
+    private int checkCurrentIndex(char[] charts, MyStack numberStack, MyStack operStack,int i) {
+        char c = charts[i];
 
-        if (c >= '0' && c <= '9') {
-            numberStack.push(c - 48); // 这里是'0'不是0
+        if (isNumber(c)) {
+            StringBuffer str = new StringBuffer();
+            str.append(c - 48);
+            int count = 1;
+            while (true) {
+                if (i >= (charts.length - 1)) {numberStack.push(Integer.parseInt(str.toString())); break;}
+                char currentCh = charts[++i];
+                if (isNumber(currentCh)) {
+                    str.append(currentCh - 48);
+                    ++count;
+                } else {
+                    numberStack.push(Integer.parseInt(str.toString())); // 这里是'0'不是0
+                    break;
+                }
+            }
+            return count;
+
         } else {
             // 先检查符号栈的元素是否为空？
             if (operStack.isEmpty()) {
@@ -100,7 +118,7 @@ public class CalculationQuestion {
             } else {
                 // 栈不为空的情况下，需要从看当前的符号和栈顶的优先级
                 // 若优先级小，则需要先计算
-                if (getPriority(c) <= getPriority((char)operStack.peek())) {
+                if (getPriority(c) <= getPriority((char) operStack.peek())) {
                     // 此时需要计算
                     int number1 = numberStack.pop();
                     int number2 = numberStack.pop();
@@ -121,10 +139,10 @@ public class CalculationQuestion {
                     operStack.push(c);
                 }
             }
+            return 1;
         }
         
     }
-
 
 }
 
