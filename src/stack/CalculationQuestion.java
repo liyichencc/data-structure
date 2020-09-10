@@ -48,7 +48,7 @@ public class CalculationQuestion {
         return numberStack.pop();
     }
 
-    private int getPriority(char c) {
+    public static int getPriority(char c) {
 
         if (c == '*' || c == '/') {
             return 1;
