@@ -9,6 +9,7 @@ public class LinkedListDemo {
 
 
     public static void main(String[] args) {
+
         DataNode d1 = new DataNode(1,"01");
         DataNode d2 = new DataNode(2,"02");
         DataNode d2_1 = new DataNode(2,"02");
@@ -58,7 +59,6 @@ class SigleLikedList {
         temp.next = dataNode;
         return true;
     }
-
     public DataNode getLastIndexData(int index,DataNode dataNode) {
 
 
@@ -141,7 +141,7 @@ class SigleLikedList {
             System.out.println("空链");
             return false;
         }
-        boolean isUpdated = false;
+        boolean isUpdated;
         while (true) {
 
             if (temp.next.no == no) {
