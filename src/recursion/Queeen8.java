@@ -1,5 +1,8 @@
 package recursion;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * 八皇后问题，用递归回溯求解，效率较低。
  *
@@ -14,10 +17,13 @@ public class Queeen8 {
 
     int[] array = new int[max];
 
-    public static void main(String[] args) {
-        Queeen8 q = new Queeen8();
-        q.putQueen(0);
+    public static void main(String[] args) throws ParseException {
+//        Queeen8 q = new Queeen8();
+//        q.putQueen(0);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long start = sdf.parse("1970-01-01 08:00:00").getTime();
+        System.out.println(start);
     }
     public void putQueen(int n) {
 
