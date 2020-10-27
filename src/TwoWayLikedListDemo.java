@@ -112,7 +112,7 @@ public class TwoWayLikedListDemo {
 
 }
 
-class TwoWayDataNode {
+class  TwoWayDataNode {
 
     int val;
 
